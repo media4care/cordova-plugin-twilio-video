@@ -36,25 +36,11 @@ NSString *const CLOSED = @"CLOSED";
     
     // Preview our local camera track in the local video preview view.
     [self startPreview];
-    
-    // Disconnect and mic button will be displayed when client is connected to a room.
-    self.micButton.hidden = YES;
-    [self.micButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
-    [self.micButton setImage:[UIImage imageNamed:@"no_mic"] forState: UIControlStateSelected];
-    [self.videoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
-    [self.videoButton setImage:[UIImage imageNamed:@"no_video"] forState: UIControlStateSelected];
-    
+        
     // Customize button colors
     NSString *primaryColor = [self.config primaryColorHex];
     if (primaryColor != NULL) {
         self.disconnectButton.backgroundColor = [TwilioVideoConfig colorFromHexString:primaryColor];
-    }
-    
-    NSString *secondaryColor = [self.config secondaryColorHex];
-    if (secondaryColor != NULL) {
-        self.micButton.backgroundColor = [TwilioVideoConfig colorFromHexString:secondaryColor];
-        self.videoButton.backgroundColor = [TwilioVideoConfig colorFromHexString:secondaryColor];
-        self.cameraSwitchButton.backgroundColor = [TwilioVideoConfig colorFromHexString:secondaryColor];
     }
 }
 
@@ -83,26 +69,6 @@ NSString *const CLOSED = @"CLOSED";
     }
 }
 
-- (IBAction)micButtonPressed:(id)sender {
-    // We will toggle the mic to mute/unmute and change the title according to the user action.
-    
-    if (self.localAudioTrack) {
-        self.localAudioTrack.enabled = !self.localAudioTrack.isEnabled;
-        // If audio not enabled, mic is muted and button crossed out
-        [self.micButton setSelected: !self.localAudioTrack.isEnabled];
-    }
-}
-
-- (IBAction)cameraSwitchButtonPressed:(id)sender {
-    [self flipCamera];
-}
-
-- (IBAction)videoButtonPressed:(id)sender {
-    if(self.localVideoTrack){
-        self.localVideoTrack.enabled = !self.localVideoTrack.isEnabled;
-        [self.videoButton setSelected: !self.localVideoTrack.isEnabled];
-    }
-}
 
 #pragma mark - Private
 
@@ -135,9 +101,6 @@ NSString *const CLOSED = @"CLOSED";
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(flipCamera)];
-        
-        self.videoButton.hidden = NO;
-        self.cameraSwitchButton.hidden = NO;
         [self.previewView addGestureRecognizer:tap];
     }
 }
@@ -241,7 +204,6 @@ NSString *const CLOSED = @"CLOSED";
 
 // Reset the client ui status
 - (void)showRoomUI:(BOOL)inRoom {
-    self.micButton.hidden = !inRoom;
     [UIApplication sharedApplication].idleTimerDisabled = inRoom;
 }
 

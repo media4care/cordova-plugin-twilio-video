@@ -26,11 +26,8 @@
 @property (weak, nonatomic) IBOutlet TVIVideoView *previewView;
 
 @property (nonatomic, weak) IBOutlet UIButton *disconnectButton;
-@property (nonatomic, weak) IBOutlet UIButton *micButton;
 @property (nonatomic, weak) IBOutlet UILabel *roomLabel;
 @property (nonatomic, weak) IBOutlet UILabel *roomLine;
-@property (nonatomic, weak) IBOutlet UIButton *cameraSwitchButton;
-@property (nonatomic, weak) IBOutlet UIButton *videoButton;
 
 - (void)connectToRoom:(NSString*)room token: (NSString *)token;
 
