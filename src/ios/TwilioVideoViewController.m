@@ -281,8 +281,9 @@ NSString *const CLOSED = @"CLOSED";
     
     [self showRoomUI:NO];
     if (error != NULL) {
-        [[TwilioVideoManager getInstance] publishEvent:DISCONNECTED_WITH_ERROR with:@{ @"code": [NSString stringWithFormat:@"%ld",[error code]] }];
-        [self handleConnectionError: [self.config i18nDisconnectedWithError]];
+        [self logMessage:[NSString stringWithFormat:@"Disconnected with error, error = %@", error]];
+        [[TwilioVideoManager getInstance] publishEvent: CLOSED];
+
     } else {
         [[TwilioVideoManager getInstance] publishEvent: DISCONNECTED];
         [self dismiss];
