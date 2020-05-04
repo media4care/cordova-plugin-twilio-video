@@ -270,8 +270,8 @@ NSString *const CLOSED = @"CLOSED";
         [[TwilioVideoManager getInstance] publishEvent: [NSString stringWithFormat:@"ERROR %@", error]];
     } else {
         [[TwilioVideoManager getInstance] publishEvent: DISCONNECTED];
-        [self dismiss];
     }
+    [self dismiss];
 }
 
 - (void)room:(TVIRoom *)room didFailToConnectWithError:(nonnull NSError *)error{
