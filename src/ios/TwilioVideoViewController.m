@@ -228,23 +228,8 @@ NSString *const CLOSED = @"CLOSED";
         [self dismiss];
         return;
     }
-    [self logMessage: @"Connection error handled by the plugin"];
-    UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:NULL
-                                 message: message
-                                 preferredStyle:UIAlertControllerStyleAlert];
-    
-    //Add Buttons
-    
-    UIAlertAction* yesButton = [UIAlertAction
-                                actionWithTitle:[self.config i18nAccept]
-                                style:UIAlertActionStyleDefault
-                                handler: ^(UIAlertAction * action) {
-                                    [self dismiss];
-                                }];
-    
-    [alert addAction:yesButton];
-    [self presentViewController:alert animated:YES completion:nil];
+    [[TwilioVideoManager getInstance] publishEvent: [NSString stringWithFormat:@"ERROR %@", message]];
+    [self dismiss];
 }
 
 - (void) dismiss {
@@ -281,13 +266,12 @@ NSString *const CLOSED = @"CLOSED";
     
     [self showRoomUI:NO];
     if (error != NULL) {
-        [self logMessage:[NSString stringWithFormat:@"Disconnected with error, error = %@", error]];
-        [[TwilioVideoManager getInstance] publishEvent: CLOSED];
-
+        [self logMessage:[NSString stringWithFormat:@"ERROR Disconnected: %@", error]];
+        [[TwilioVideoManager getInstance] publishEvent: [NSString stringWithFormat:@"ERROR %@", error]];
     } else {
         [[TwilioVideoManager getInstance] publishEvent: DISCONNECTED];
-        [self dismiss];
     }
+    [self dismiss];
 }
 
 - (void)room:(TVIRoom *)room didFailToConnectWithError:(nonnull NSError *)error{
