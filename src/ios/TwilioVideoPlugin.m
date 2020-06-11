@@ -35,12 +35,8 @@
 }
 
 - (void)closeRoom:(CDVInvokedUrlCommand*)command {
-    if ([[TwilioVideoManager getInstance] publishDisconnection]) {
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
-    } else {
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Twilio video is not running"];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }
+    [[TwilioVideoManager getInstance] publishDisconnection];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void)hasRequiredPermissions:(CDVInvokedUrlCommand*)command {
