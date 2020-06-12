@@ -294,7 +294,7 @@ NSString *const CLOSED = @"CLOSED";
 
 - (void)room:(nonnull TVIRoom *)room didFailToConnectWithError:(nonnull NSError *)error {
     [self logMessage:[NSString stringWithFormat:@"Failed to connect to room, error = %@", error]];
-    [[TwilioVideoManager getInstance] publishEvent: CONNECT_FAILURE with:@{ @"code": [NSString stringWithFormat:@"%ld",[error code]] }];
+    [[TwilioVideoManager getInstance] publishEvent: CONNECT_FAILURE with:[TwilioVideoUtils convertErrorToDictionary:error]];
     
     self.room = nil;
     
@@ -310,8 +310,8 @@ NSString *const CLOSED = @"CLOSED";
     
     [self showRoomUI:NO];
     if (error != NULL) {
-        [self logMessage:[NSString stringWithFormat:@"ERROR Disconnected: %@", error]];
-        [[TwilioVideoManager getInstance] publishEvent: [NSString stringWithFormat:@"ERROR %@", error]];
+        [[TwilioVideoManager getInstance] publishEvent:DISCONNECTED_WITH_ERROR with:[TwilioVideoUtils convertErrorToDictionary:error]];
+        [self handleConnectionError: [self.config i18nDisconnectedWithError]];
     } else {
         [[TwilioVideoManager getInstance] publishEvent: DISCONNECTED];
     }
@@ -319,7 +319,7 @@ NSString *const CLOSED = @"CLOSED";
 }
 
 - (void)room:(nonnull TVIRoom *)room isReconnectingWithError:(nonnull NSError *)error {
-    [[TwilioVideoManager getInstance] publishEvent: RECONNECTING with:@{ @"code": [NSString stringWithFormat:@"%ld",[error code]] }];
+    [[TwilioVideoManager getInstance] publishEvent: RECONNECTING with:[TwilioVideoUtils convertErrorToDictionary:error]];
 }
 
 - (void)didReconnectToRoom:(nonnull TVIRoom *)room {
