@@ -108,11 +108,8 @@ NSString *const CLOSED = @"CLOSED";
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(flipCamera)];
                 [self.previewView addGestureRecognizer:tap];
-                self.cameraSwitchButton.hidden = NO;
             }
-            
-            self.videoButton.hidden = NO;
-            
+
             [self.camera startCaptureWithDevice:frontCamera != nil ? frontCamera : backCamera
                  completion:^(AVCaptureDevice *device, TVIVideoFormat *format, NSError *error) {
                      if (error != nil) {
